@@ -1,7 +1,7 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include "GPIO_REGISTER_H"
+#include "Gpio_Register.h"
 
 /*! 
  * @brief GPIO pin configuration structure
