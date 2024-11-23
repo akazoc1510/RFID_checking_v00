@@ -1,44 +1,43 @@
-#define RCC_AHB1ENR (*(unsigned int *) 0x40023830)
-#define GPIOG_MODER (*(unsigned int *) 0x40021800)
-#define GPIOG_OSPEEDR (*(unsigned int *) 0x40021800)
-#define GPIOG_OTYPER (*(unsigned int *) 0x40021804)
-#define GPIOG_ODR (*(unsigned int *) 0x40021814)
-#define GPIOA_MODER (*(unsigned int *) 0x40020000)
-#define GPIOA_OSPEEDR (*(unsigned int *) 0x40020008)
-#define GPIOA_PUPDR (*(unsigned int *) 0x4002000C)
-#define GPIOA_OTYPES (*(unsigned int *) 0x40020004)
-#define GPIOA_IDR (*(unsigned int *) 0x40020010)
+#include <stdint.h>
+#include "Gpio_Register.h"
+#include "SPI_Register.h"
+#include "RCC_Register.h"
+#include "LCD_Driver.h"
 
+#define WHITE 0xFFFF
+#define BLACK 0x0000
 
-void delay(int ms) {
-    for (int i = 0; i < ms * 4000; i++) {
-
-    }
+// Cấu hình Clock HSE
+void HSE_clock(void) {
+    RCC->CR |= (1 << 16);  // Bật HSE
+    while (!(RCC->CR & (1 << 17))) {} // Chờ HSE sẵn sàng
 }
 
+// Cấu hình PLL
+void PLL_clock(void) {
+    RCC->PLLCFGR = (8 << 0) | (360 << 6) | (0 << 16) | (1 << 22); // PLLM = 8, PLLN = 360, PLLP = 2, nguồn HSE
+    RCC->CR |= (1 << 24);  // Bật PLL
+    while (!(RCC->CR & (1 << 25))) {} // Chờ PLL sẵn sàng
+}
 
-int main() {
+// Cấu hình clock hệ thống
+void System_clocks(void) {
+    RCC->CFGR |= (2 << 0);  // Sử dụng PLL làm clock chính
+    while ((RCC->CFGR & (3 << 2)) != (2 << 2)) {} // Chờ PLL được sử dụng
+}
 
-	RCC_AHB1ENR |= 1<<0; 	//Enable clock for port A
-	RCC_AHB1ENR |= 1<<6;	//Enable clock for port G
+int main(void) {
+    HSE_clock();        // Khởi tạo clock HSE
+    PLL_clock();        // Cấu hình PLL
+    System_clocks();    // Bật clock hệ thống
+    GPIO_Init();        // Khởi tạo GPIO
+    SPI5_Init();        // Khởi tạo SPI5
+    LCD_Init();         // Khởi tạo LCD
 
-	//GPIOA setting
-	GPIOA_MODER &= ~(3 << 0);
-	GPIOA_PUPDR &= ~(3 << 0);
-	
-    //GPIOG setting
-    GPIOG_MODER |= (1 << 26) | (1 << 28);
-    GPIOG_OSPEEDR |= (1 << 26) | (1 << 28);
-    GPIOG_OTYPER &= ~((1 << 13) | (1 << 14));
+    // Hiển thị chuỗi trên LCD
+    LCD_DrawString(10, 10, "STM32 LCD", 0xFFFF, 0x0000);
+    LCD_DrawString(10, 30, "19520596", 0xFFFF, 0x0000);
 
-    for(;;) {
-        if (GPIOA_IDR & (1 << 0)) {
-            GPIOG_ODR |= (1 << 13);  //Enable led green
-            GPIOG_ODR &= ~(1 << 14); //Disable led red
-        } else {
-            GPIOG_ODR |= (1 << 14);	 //Enable led red
-            GPIOG_ODR &= ~(1 << 13); //Disabel led green 
-        }
-        delay(50);
-    }
+    while (1);
+    return 0;
 }

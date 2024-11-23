@@ -30,7 +30,7 @@ typedef struct {
 } RCC_Type;
 
 #define RCC_BASE	(0x40023800)
-#define RCC   ((RCC_Type *)RCC_BASE)
+#define RCC         ((RCC_Type *)RCC_BASE)
 
 
 #endif

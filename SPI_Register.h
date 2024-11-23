@@ -14,18 +14,18 @@ typedef struct {
     volatile unsigned int PR;
 } SPI_Type;
 
-#define SPI1_BASE	(0x40013000)
-#define SPI1   ((SPI_Type *)SPI1_BASE)
-#define SPI2_BASE   (0x40003800)
-#define SPI2   ((SPI_Type *)SPI2_BASE)
-#define SPI3_BASE   (0x40003C00)
-#define SPI3   ((SPI_Type *)SPI3_BASE)
-#define SPI4_BASE   (0x40013400)
-#define SPI4   ((SPI_Type *)SPI4_BASE)
-#define SPI5_BASE   (0x40015000)
-#define SPI5  ((SPI_Type *)SPI5_BASE)
-#define SPI6_BASE   (0x40015400)
-#define SPI6  ((SPI_Type *)SPI6_BASE)
+#define SPI1_BASE	(0x40013000UL)
+#define SPI1        ((SPI_Type *)SPI1_BASE)
+#define SPI2_BASE   (0x40003800UL)
+#define SPI2        ((SPI_Type *)SPI2_BASE)
+#define SPI3_BASE   (0x40003C00UL)
+#define SPI3        ((SPI_Type *)SPI3_BASE)
+#define SPI4_BASE   (0x40013400UL)
+#define SPI4        ((SPI_Type *)SPI4_BASE)
+#define SPI5_BASE   (0x40015000UL)
+#define SPI5        ((SPI_Type *)SPI5_BASE)
+#define SPI6_BASE   (0x40015400UL)
+#define SPI6        ((SPI_Type *)SPI6_BASE)
 
 
 #endif
