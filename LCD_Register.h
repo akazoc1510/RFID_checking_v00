@@ -42,12 +42,12 @@ typedef struct
   volatile int CLUTWR;
 } LTDC_Layer_TypeDef;
 
-#define LTDC_BASE	(0x40016800UL)
-#define LTDC   ((LTDC_TypeDef *)LTDC_BASE)
+#define LTDC_BASE	            (0x40016800UL)
+#define LTDC                  ((LTDC_TypeDef *)LTDC_BASE)
 #define LTDC_Layer1_BASE      (LTDC_BASE + 0x84UL)
-#define LTDC_L1 ((LTDC_Layer_TypeDef *)LTDC_Layer1_BASE)
+#define LTDC_L1               ((LTDC_Layer_TypeDef *)LTDC_Layer1_BASE)
 #define LTDC_Layer2_BASE      (LTDC_BASE + 0x104UL)
-#define LTDC_L2 ((LTDC_Layer_TypeDef *)LTDC_Layer2_BASE)
+#define LTDC_L2               ((LTDC_Layer_TypeDef *)LTDC_Layer2_BASE)
 #endif
 
 
